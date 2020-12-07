@@ -1,20 +1,22 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet , Button} from 'react-native';
+import {View, Text, StyleSheet , Button, FlatList, ActivityIndicator} from 'react-native';
 import get from '../libs/Http';
+import CoinsItems from './CoinsItems';
 
 export default function CoinsScreen(props){
     const [coins, setCoins] = useState([]);
-    console.log(coins);
+    const [isLoading, setIsLoading] = useState(false);
 
 
+    // API REQUEST
     useEffect(() => {
+        setIsLoading(true);
         const data = get('https://api.coinlore.net/api/tickers/');
         data
             .then(result => {
                 setCoins(result.data);
-            })
-        
-           
+                setIsLoading(false);
+            }) 
     }, [])
             
     
@@ -31,10 +33,25 @@ export default function CoinsScreen(props){
                 onPress={() => handlePress()}
                 color="green"
             />
+            {isLoading ?(
+                <ActivityIndicator 
+                    color="green"     
+                    size="large"
+                    style={style.loading} 
+                />
+                ): null
+            } 
+               
+            
+            <FlatList
+                data={coins}
+                renderItem={({item}) => <CoinsItems item={item}/>}
+                keyExtractor={item => item.id}
+            />
         </View>
     )
 
-}
+}   
 
 
 const style = StyleSheet.create({
@@ -44,5 +61,8 @@ const style = StyleSheet.create({
     text: {
         fontSize: 20,
         marginBottom: 15
+    },
+    loading: {
+        marginTop:20
     }
 })
