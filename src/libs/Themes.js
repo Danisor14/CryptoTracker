@@ -1,4 +1,5 @@
 import {DarkTheme as NavigationDarkTheme, DefaultTheme as NavigationLightTheme} from '@react-navigation/native';
+import colors from '../res/colors';
 
 export const DarkTheme = {
     ...NavigationDarkTheme,
@@ -6,6 +7,9 @@ export const DarkTheme = {
       ...NavigationDarkTheme.colors,
       text: "#ffffff",
       icon: "rgba(255, 255, 255, 0.68)",
+      backgroundHeader: colors.blackPearl,
+      backgroundContainer: colors.charade,
+      border: colors.zircon,
     }
   }
   
@@ -15,6 +19,9 @@ export  const LightTheme = {
       ...NavigationLightTheme.colors,
       text: "#333333",
       icon: "rgba(28, 28, 30, 0.68)",
+      backgroundHeader: "#ffffff",
+      backgroundContainer: "#ffffff",
+      border: colors.zircon,
     }
   }
   

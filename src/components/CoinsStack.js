@@ -12,24 +12,33 @@ export default function CoinsStack(){
     const themeValues = useContext(ThemeContext)
     const theme = useTheme();
 
+    const iconTheme = () =>{
+        return (
+            <Icon 
+                name='theme-light-dark' 
+                type='material-community' 
+                size={28}
+                onPress={() => themeValues.setIsDark(!themeValues.isDark)}
+                containerStyle={{marginRight: 18}}
+                color={theme.colors.icon}
+            />
+        )
+    }
+
     return(
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerStyle:{
+                    backgroundColor: theme.colors.backgroundHeader,
+                    shadowOpacity:theme.colors.backgroundHeader,
+                }
+            }}
+        > 
             
             <Stack.Screen
                 name="Coins"
                 component={CoinsScreen}
-                options={{
-                    headerRight: () => (
-                        <Icon 
-                            name='theme-light-dark' 
-                            type='material-community' 
-                            size={28}
-                            onPress={() => themeValues.setIsDark(!themeValues.isDark)}
-                            containerStyle={{marginRight: 18}}
-                            color={theme.colors.icon}
-                        />
-                    )
-                }}
+                options={{headerRight: () => iconTheme()}}
             />
 
             <Stack.Screen

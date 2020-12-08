@@ -1,11 +1,13 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet , Button, FlatList, ActivityIndicator} from 'react-native';
+import {useTheme} from '@react-navigation/native';
 import get from '../libs/Http';
 import CoinsItems from './CoinsItems';
 
 export default function CoinsScreen(props){
     const [coins, setCoins] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const theme = useTheme();
 
 
     // API REQUEST
@@ -19,20 +21,15 @@ export default function CoinsScreen(props){
             }) 
     }, [])
             
-    
-    const handlePress = () => {
-        props.navigation.navigate('CoinDetails');
+    //nos dirigimos y mandamos la informacion de la moneda seleccionada a cointDetails 
+    const handlePress = (coin) => {
+        props.navigation.navigate('CoinDetails', {coin});
     }
  
 
     return(
-        <View style={style.view}>
-            <Text style={style.text}>Coins screen ...</Text>
-            <Button 
-                title='Go to Detail' 
-                onPress={() => handlePress()}
-                color="green"
-            />
+        <View style={[style.container,{backgroundColor: theme.colors.backgroundContainer}]}>
+
             {isLoading ?(
                 <ActivityIndicator 
                     color="green"     
@@ -45,7 +42,12 @@ export default function CoinsScreen(props){
             
             <FlatList
                 data={coins}
-                renderItem={({item}) => <CoinsItems item={item}/>}
+                renderItem={({item}) => 
+                    <CoinsItems 
+                        item={item} 
+                        onPress={() => handlePress(item)} 
+                    />
+                } 
                 keyExtractor={item => item.id}
             />
         </View>
@@ -55,8 +57,8 @@ export default function CoinsScreen(props){
 
 
 const style = StyleSheet.create({
-    view: {
-        alignItems: "center"
+    container: {
+        flex: 1
     },
     text: {
         fontSize: 20,
