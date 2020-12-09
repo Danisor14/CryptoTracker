@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, StyleSheet , Button, FlatList, ActivityIndicator} from 'react-native';
 import {useTheme} from '@react-navigation/native';
-import get from '../libs/Http';
+import get from '../../libs/Http';
 import CoinsItems from './CoinsItems';
 
 export default function CoinsScreen(props){
@@ -48,7 +48,7 @@ export default function CoinsScreen(props){
                         onPress={() => handlePress(item)} 
                     />
                 } 
-                keyExtractor={item => item.id}
+                keyExtractor={(item) => item.id}
             />
         </View>
     )

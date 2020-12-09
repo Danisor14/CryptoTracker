@@ -2,8 +2,8 @@ import React, {useContext} from "react";
 import {createStackNavigator} from '@react-navigation/stack';
 import {Icon} from 'react-native-elements';
 import CoinsScreen from './CoinsScreen';
-import CoinDetailsScreen from './CoinDetailsScreen';
-import ThemeContext from '../context/ThemeContext';
+import CoinDetailsScreen from '../coinDetail/CoinDetailsScreen';
+import ThemeContext from '../../context/ThemeContext';
 import {useTheme} from '@react-navigation/native'
 
 const Stack = createStackNavigator();

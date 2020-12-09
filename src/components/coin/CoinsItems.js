@@ -21,7 +21,7 @@ export default function CoinsItems({item, onPress}) {
             <View style={styles.row}>
                 <Text style={[styles.percentText, {color: colorText }]}>{item.percent_change_1h}</Text>
                 <Image
-                    source={item.percent_change_1h > 0 ? require('../assets/arrow_up.png') : require('../assets/arrow_down.png')}
+                    source={item.percent_change_1h > 0 ? require('../../assets/arrow_up.png') : require('../../assets/arrow_down.png')}
                     style={styles.imgIcon}
                 />
             </View>
@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
         padding: 16,
         justifyContent: 'space-between',
         borderBottomWidth: 1,
+        paddingLeft: Platform.OS === 'ios' ? 0 : 16,
         marginLeft: Platform.OS === 'ios' ? 16 : 0,
     },
     row: {

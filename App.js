@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {DarkTheme, LightTheme} from './src/libs/Themes';
-import CoinsStack from './src/components/CoinsStack';
+import CoinsStack from './src/components/coin/CoinsStack';
 import ThemeContext from './src/context/ThemeContext';
 
 export default function App() {
