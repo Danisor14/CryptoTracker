@@ -10,6 +10,7 @@ export const DarkTheme = {
       backgroundHeader: colors.blackPearl,
       backgroundContainer: colors.charade,
       border: colors.zircon,
+      placeHolderSearch: '#d3d6d0',
     }
   }
   
@@ -22,6 +23,7 @@ export  const LightTheme = {
       backgroundHeader: "#ffffff",
       backgroundContainer: "#ffffff",
       border: colors.zircon,
+      placeHolderSearch: 'rgb(51, 51, 51)',
     }
   }
   

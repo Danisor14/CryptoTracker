@@ -3,10 +3,13 @@ import {View, Text, StyleSheet , Button, FlatList, ActivityIndicator} from 'reac
 import {useTheme} from '@react-navigation/native';
 import get from '../../libs/Http';
 import CoinsItems from './CoinsItems';
+import CoinSearch from './CoinSearch';
 
 export default function CoinsScreen(props){
     const [coins, setCoins] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [search, setSearch] = useState('');
+    const [allCoins, setAllCoins] = useState([]);
     const theme = useTheme();
 
 
@@ -17,6 +20,7 @@ export default function CoinsScreen(props){
         data
             .then(result => {
                 setCoins(result.data);
+                setAllCoins(result.data);
                 setIsLoading(false);
             }) 
     }, [])
@@ -26,9 +30,18 @@ export default function CoinsScreen(props){
         props.navigation.navigate('CoinDetails', {coin});
     }
  
+    const getFilteredCoins = () =>{
+        const coinsFiltered = allCoins.filter((coin) => {
+            return coin.name.toLowerCase().includes(search.toLowerCase()) || 
+            coin.symbol.toLowerCase().includes(search.toLowerCase());
+        })
+        setCoins(coinsFiltered);
+    }
 
     return(
         <View style={[style.container,{backgroundColor: theme.colors.backgroundContainer}]}>
+
+            <CoinSearch setSearch={setSearch} search={search} getFilteredCoins={getFilteredCoins}/>
 
             {isLoading ?(
                 <ActivityIndicator 
