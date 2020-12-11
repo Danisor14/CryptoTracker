@@ -1,16 +1,20 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, StyleSheet ,Image, SectionList, ActivityIndicator, FlatList} from 'react-native';
+import {View, Text, StyleSheet ,Image, SectionList, ActivityIndicator, FlatList, Alert} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {useTheme} from '@react-navigation/native';
 import get from '../../libs/Http';
 import MarketItems from './MarketItems';
+import {addStorage, removeStorage, getStorage} from '../../libs/storage';
  
 export default function CoinDetailsScreen(props) {
     const [market, setMarket] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isFavorite, setIsFavorite] = useState(false);
     const theme = useTheme();
     const coinData = props.route.params.coin;
     
     useEffect(() => {
+        getFavorite();
         props.navigation.setOptions({title: coinData.symbol});
 
         setIsLoading(true);
@@ -19,9 +23,65 @@ export default function CoinDetailsScreen(props) {
             .then( result => {
                 setMarket(result);
                 setIsLoading(false);
-            });
-    
+            });   
     },[])
+
+    const toggleFavorite = () => { 
+        if(isFavorite){
+            removeFavorite();
+        }else{
+            addFavorite();
+        }
+    }
+
+    const addFavorite = async () => {
+        const coin = JSON.stringify(coinData);
+        const key = `favorite-${coinData.id}`;
+
+        const stored = await addStorage(key, coin);
+
+        if(stored) {
+            setIsFavorite(true);
+        }
+    }
+
+    const removeFavorite = async () => {
+        Alert.alert('Remove favorite', 'Are you sure?', [
+            {
+                text:'Cancel',
+                onPress: () => {},
+                style: 'cancel'
+            },
+            {
+                text:'Remove',
+                onPress: async () => {
+                    const key = `favorite-${coinData.id}`;
+        
+                    await removeStorage(key);
+            
+                    setIsFavorite(false);
+                },
+                style:'destructive'
+            }
+        ]);
+
+ 
+    }
+
+    const getFavorite = async () => {
+        try {
+            const key = `favorite-${coinData.id}`;
+
+            const favStr = await getStorage(key);
+            
+            if(favStr != null){
+                setIsFavorite(true);
+            }  
+            
+        } catch (err) {
+            console.log('get favorites err,', err);
+        }
+    }
 
     const getSections = (coin) => {
         const sections = [
@@ -46,12 +106,25 @@ export default function CoinDetailsScreen(props) {
     return(
         <View style={[style.container,{backgroundColor: theme.colors.backgroundContainer}]}>
             <View style={[style.subHeader,{backgroundColor: 'rgba(0, 0, 0, 0.1)'}]}>
-                <Image
-                    source={{uri:`https://c1.coinlore.com/img/25x25/${coinData.nameid}.png`}}
-                    style={style.coinImage}
-                />
-                <Text style={[style.titleText,{color: theme.colors.text}]}>{coinData.name}</Text>
+                <View style={style.row}>
+                    <Image
+                        source={{uri:`https://c1.coinlore.com/img/25x25/${coinData.nameid}.png`}}
+                        style={style.coinImage}
+                    />
+                    <Text style={[style.titleText,{color: theme.colors.text}]}>{coinData.name}</Text>
+                </View>
+                <View>
+                    <Icon
+                        type='material-community'
+                        name={isFavorite ? 'star' : 'star-outline'}
+                        color={isFavorite ? '#cd5a51' : theme.colors.icon}
+                        size={22}
+                        onPress={() => toggleFavorite()}
+                    />
+                </View>
+                
             </View>
+        
 
             <SectionList
                 style={style.section}
@@ -96,6 +169,10 @@ const style = StyleSheet.create({
     },
     subHeader: {
         padding: 16,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    row: {
         flexDirection: 'row',
     },
     coinImage: {

@@ -1,19 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export default function storage() {
    
-    const addStorage = async () => {
+export const addStorage = async (key, value) => {
 
-        try {
-            await AsyncStorage.setItem(key, value);
-            return true;
-        } catch (err) {
-            console.log('storage store err', err);
-            return false;
-        }
+    try {
+        await AsyncStorage.setItem(key, value);
+        return true;
+    } catch (err) {
+        console.log('storage store err', err);
+        return false;
     }
+}
 
-    const getStorage = async (key) => {
+export const getStorage = async (key) => {
         
         try {
             return await AsyncStorage.getItem(key);
@@ -21,27 +19,27 @@ export default function storage() {
             console.log('storage ger err', err);
             throw Error(err);
         }
-    } 
+} 
 
-    const multiGet = async (keys) => {
+export const multiGet = async (keys) => {
         try {
             return await AsyncStorage.multiGet(keys);
         } catch (err) {
             console.log('storage multiGet err', err);
             throw Error(err);
         }
-    }
+ }
 
-    getAllkeys = async () => {
+export const getAllkeys = async () => {
         try {
             return await AsyncStorage.getAllKeys();
         } catch (err) {
             console.log('storage getallkeys err',err);
             throw Error(err);
         }
-    }
+}
 
-    const removeStorage = async () => {
+export const removeStorage = async (key) => {
         try {
             await AsyncStorage.removeItem(key);
             return true;
@@ -49,6 +47,6 @@ export default function storage() {
             console.log('storage remove err', err)
             return false;
         }
-    }
 }
+
 
