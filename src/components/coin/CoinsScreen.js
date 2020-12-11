@@ -31,11 +31,16 @@ export default function CoinsScreen(props){
     }
  
     const getFilteredCoins = () =>{
-        const coinsFiltered = allCoins.filter((coin) => {
-            return coin.name.toLowerCase().includes(search.toLowerCase()) || 
-            coin.symbol.toLowerCase().includes(search.toLowerCase());
-        })
-        setCoins(coinsFiltered);
+        if(search === ""){
+            setCoins(allCoins);
+        }else{
+            const coinsFiltered = allCoins.filter((coin) => {
+                return coin.name.toLowerCase().includes(search.toLowerCase()) || 
+                coin.symbol.toLowerCase().includes(search.toLowerCase());
+            })
+            setCoins(coinsFiltered);
+        }
+        
     }
 
     return(

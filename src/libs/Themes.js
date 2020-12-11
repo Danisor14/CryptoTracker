@@ -11,6 +11,7 @@ export const DarkTheme = {
       backgroundContainer: colors.charade,
       border: colors.zircon,
       placeHolderSearch: '#d3d6d0',
+      activeIcon: '#4e98c8'
     }
   }
   
@@ -24,6 +25,7 @@ export  const LightTheme = {
       backgroundContainer: "#ffffff",
       border: colors.zircon,
       placeHolderSearch: 'rgb(51, 51, 51)',
+      activeIcon: '#1a44e2'
     }
   }
   

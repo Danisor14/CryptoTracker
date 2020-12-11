@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {DarkTheme, LightTheme} from './src/libs/Themes';
-import CoinsStack from './src/components/coin/CoinsStack';
 import ThemeContext from './src/context/ThemeContext';
+import TabNavigation from './src/components/TabNavigation';
 
 export default function App() {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
@@ -16,7 +16,7 @@ export default function App() {
   return (
     <ThemeContext.Provider value={themeValues}>
       <NavigationContainer theme={theme}>
-        <CoinsStack/>
+        <TabNavigation />
       </NavigationContainer>
     </ThemeContext.Provider>
   );
